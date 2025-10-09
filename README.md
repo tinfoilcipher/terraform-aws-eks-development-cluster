@@ -9,14 +9,21 @@ This module creates:
 - An EKS cluster on private VPC subnets with a **PUBLIC FACING** API, controlled by an IP ACL
 - A single managed node group, with scaling and compute size options
 - A managed list of admin users (added to the Kubernetes *master* group), made up of existing AWS IAM Users
-- A Kubernetes namespace
-- An IRSA configuration to test application deployments from your namespace which need to speak to a real AWS backend without using static access keys
-- Options to tweak the IRSA config if needed
 - Cloudwatch logging for the cluster
+- A Kubernetes namespace
+- An IRSA configuration to allow application deployments from your namespace. By default this creates a Service Account named **irsa-sa** within your namespace which can access AWS AdministratorAccess permissions. This can be customised.
 
 This design is not especially hardened, with the only real protections being an IP ACL and your user's ability to authenticate. Users are given admin access with no means to change this. This is not intended as a production or even pre-production solution. For development and debugging purposes only.
 
 See [examples](./examples/) for configuration options.
+
+## Usage
+
+```bash
+terraform init
+terraform apply
+aws eks update-kubeconfig --region $REGION_CODE --name $CLUSTER_NAME #--Enter your region and cluster name
+```
 
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
