@@ -55,6 +55,12 @@ variable "ng_min_size" {
   default     = "1"
 }
 
+variable "custom_ng_policy" {
+  description = "Custom IAM policy JSON to attach to node group"
+  type        = string
+  default     = ""
+}
+
 variable "enabled_log_types" {
   description = "List of Enabled Log Types"
   type        = list(string)
