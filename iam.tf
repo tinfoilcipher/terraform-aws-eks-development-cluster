@@ -56,7 +56,7 @@ resource "aws_iam_policy" "custom_ng_policy" {
 
 resource "aws_iam_role_policy_attachment" "custom_ng_policy" {
   count      = length(var.custom_ng_policy) > 0 ? 1 : 0
-  policy_arn = aws_iam_policy.custom_ng_policy.arn
+  policy_arn = aws_iam_policy.custom_ng_policy[count.index].arn
   role       = aws_iam_role.nodegroup.name
 }
 
