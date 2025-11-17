@@ -47,6 +47,19 @@ resource "aws_iam_role_policy_attachment" "CloudWatchFullAccess" {
   role       = aws_iam_role.nodegroup.name
 }
 
+resource "aws_iam_policy" "custom_ng_policy" {
+  count       = length(var.custom_ng_policy) > 0 ? 1 : 0
+  name        = "${var.cluster_name}-custom-ng-policy"
+  description = "Additional Custom Policy for ${var.cluster_name}-ng"
+  policy      = var.custom_ng_policy
+}
+
+resource "aws_iam_role_policy_attachment" "custom_ng_policy" {
+  count      = length(var.custom_ng_policy) > 0 ? 1 : 0
+  policy_arn = aws_iam_policy.custom_ng_policy.arn
+  role       = aws_iam_role.nodegroup.name
+}
+
 #--IRSA
 resource "aws_iam_role" "irsa" {
   name               = "${var.cluster_name}_${local.irsa_role_purpose}"
